@@ -1,17 +1,13 @@
-﻿using jetmoji.windowsmediaplayer.Handlers.Interfaces;
-using jetmoji.windowsmediaplayer.Tasks.Interfaces;
+﻿using videoplayer.windowsmediaplayer.Handlers.Interfaces;
+using videoplayer.windowsmediaplayer.Tasks.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace jetmoji.windowsmediaplayer.Handlers
+namespace videoplayer.windowsmediaplayer.Handlers
 {
     public class TimerHandler
     {
-        private Timer tmrWmpPlayerPosition;
+        private Timer timer;
         private readonly ITimerTask _timerTask;
         public int SecondsToPlay { get; set; }
 
@@ -22,34 +18,32 @@ namespace jetmoji.windowsmediaplayer.Handlers
 
         public void Execute()
         {
+            _timerTask.SecondsToPlay = SecondsToPlay;
             StartWmpPlayerTimer();
         }
 
-        private int countSeconds = 0;
         private void tmrWmpPlayerPosition_Tick(object sender, EventArgs e)
         {
-            countSeconds++;
-            if (SecondsToPlay != countSeconds) return;
-            _timerTask.OnStop();
-            StopWmpPlayerTimer();
+            _timerTask.OnRunning();
         }
 
         private void StartWmpPlayerTimer()
         {
+            timer = new Timer();
+            timer.Tick += new EventHandler(tmrWmpPlayerPosition_Tick);
+            timer.Enabled = true;
+            timer.Interval = 1000;
+            timer.Start();
+
             _timerTask.OnStart();
-            countSeconds = 0;
-            tmrWmpPlayerPosition = new Timer();
-            tmrWmpPlayerPosition.Tick += new EventHandler(tmrWmpPlayerPosition_Tick);
-            tmrWmpPlayerPosition.Enabled = true;
-            tmrWmpPlayerPosition.Interval = 1000;
-            tmrWmpPlayerPosition.Start();
+            _timerTask.Timer = timer;
         }
 
         private void StopWmpPlayerTimer()
         {
-            if (tmrWmpPlayerPosition != null)
-                tmrWmpPlayerPosition.Dispose();
-            tmrWmpPlayerPosition = null;
+            if (timer != null)
+                timer.Dispose();
+            timer = null;
         }
     }
 }

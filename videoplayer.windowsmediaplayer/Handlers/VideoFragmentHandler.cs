@@ -1,34 +1,34 @@
 ﻿using AxWMPLib;
-using jetmoji.windowsmediaplayer.Handlers.Interfaces;
-using jetmoji.windowsmediaplayer.Tasks;
-using jetmoji.windowsmediaplayer.Tasks.Interfaces;
+using videoplayer.windowsmediaplayer.Handlers.Interfaces;
+using videoplayer.windowsmediaplayer.Tasks;
+using videoplayer.windowsmediaplayer.Tasks.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jetmoji.windowsmediaplayer.Handlers
+namespace videoplayer.windowsmediaplayer.Handlers
 {
     public class VideoFragmentHandler : IVideoFragmentHandler
     {
-        private readonly AxWindowsMediaPlayer _videoPlayer;
+        private readonly IVideoPlayerHandler _videoPlayerHandler;
         private readonly ITimerTask _timerTask;
         private TimerHandler _timerHandler;
         public int CurrentPosition { get; set; }
         public int SecondsToPlay { get; set; }
 
-        public VideoFragmentHandler(AxWindowsMediaPlayer videoPlayer)
+        public VideoFragmentHandler(IVideoPlayerHandler videoPlayerHandler)
         {
-            _videoPlayer = videoPlayer;
-            _timerTask = new TimerTask(_videoPlayer);
+            _videoPlayerHandler = videoPlayerHandler;
+            _timerTask = new VideoTimerTask(_videoPlayerHandler);
             _timerHandler = new TimerHandler(_timerTask);
         }
 
         public void PlayVideoFragment()
         {
             ValidateSettings();
-            _videoPlayer.Ctlcontrols.currentPosition += CurrentPosition;
+            _videoPlayerHandler.SetCurrentPosition(CurrentPosition);
             _timerHandler.SecondsToPlay = SecondsToPlay;
             _timerHandler.Execute();
         }

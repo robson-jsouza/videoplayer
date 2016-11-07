@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace videoplayer.windowsmediaplayer.Handlers.Interfaces
 {
-    public interface IVideoFragmentHandler
+    public interface IVideoInformationHandler
     {
-        int CurrentPosition { get; set; }
-        int SecondsToPlay { get; set; }
-        void PlayVideoFragment();
+        void CalculateVideoInformation();
     }
 }

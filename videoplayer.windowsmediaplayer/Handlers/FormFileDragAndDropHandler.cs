@@ -1,5 +1,5 @@
 ﻿using AxWMPLib;
-using jetmoji.windowsmediaplayer.Handlers.Interfaces;
+using videoplayer.windowsmediaplayer.Handlers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace jetmoji.windowsmediaplayer.Handlers
+namespace videoplayer.windowsmediaplayer.Handlers
 {
     public class FormFileDragAndDropHandler : IFormFileDragAndDropHandler
     {

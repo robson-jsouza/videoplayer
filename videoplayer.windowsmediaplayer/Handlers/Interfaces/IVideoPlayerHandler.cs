@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace jetmoji.windowsmediaplayer.Handlers.Interfaces
+namespace videoplayer.windowsmediaplayer.Handlers.Interfaces
 {
     public interface IVideoPlayerHandler
     {
@@ -14,5 +14,9 @@ namespace jetmoji.windowsmediaplayer.Handlers.Interfaces
         void FastReverse();
         void FastForward();
         void FullScreen();
+        void SetCurrentPosition(int currentPosition);
+        double GetCurrentPosition();
+        double GetDuration();
+        string GetPlayState();
     }
 }

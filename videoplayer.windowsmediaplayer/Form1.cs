@@ -1,5 +1,5 @@
-﻿using jetmoji.windowsmediaplayer.Handlers;
-using jetmoji.windowsmediaplayer.Handlers.Interfaces;
+﻿using videoplayer.windowsmediaplayer.Handlers;
+using videoplayer.windowsmediaplayer.Handlers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,14 +9,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using videoplayer.windowsmediaplayer.Handlers;
 
-namespace jetmoji.windowsmediaplayer
+namespace videoplayer.windowsmediaplayer
 {
     public partial class Form1 : Form
     {
         private IVideoPlayerHandler _videoPlayerHandler;
         private IFormFileDragAndDropHandler _formFileDragAndDropHandler;
         private IVideoFragmentHandler _videoFragmentHandler;
+        private IVideoInformationHandler _videoInformationHandler;
 
         public Form1()
         {
@@ -29,7 +31,10 @@ namespace jetmoji.windowsmediaplayer
             _videoPlayerHandler = new VideoPlayerHandler(axWindowsMediaPlayer1);
             _formFileDragAndDropHandler = new FormFileDragAndDropHandler(this, axWindowsMediaPlayer1);
             _formFileDragAndDropHandler.EnableDragAndDrop();
-            _videoFragmentHandler = new VideoFragmentHandler(axWindowsMediaPlayer1);
+            _videoFragmentHandler = new VideoFragmentHandler(_videoPlayerHandler);
+            _videoInformationHandler = new VideoInformationHandler(_videoPlayerHandler, this);
+            _videoInformationHandler.CalculateVideoInformation();
+            ////axWindowsMediaPlayer1.uiMode = "none";
         }
         
         private void playToolStripMenuItem_Click(object sender, EventArgs e)
